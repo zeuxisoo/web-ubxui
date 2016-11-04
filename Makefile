@@ -4,6 +4,7 @@ usage:
 	@echo "make postgres-start"
 	@echo "make postgres-stop"
 	@echo "make migrate"
+	@echo "make seeds"
 
 install:
 	@mix ecto.create
@@ -19,3 +20,6 @@ postgres-stop:
 
 migrate:
 	@mix ecto.migrate
+
+seeds:
+	@mix run priv/repo/seeds.exs

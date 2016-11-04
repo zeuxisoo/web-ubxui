@@ -9,3 +9,12 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Ubxui.Repo
+alias Ubxui.User
+
+Repo.insert!(%User{
+    username: "test",
+    password: Comeonin.Bcrypt.hashpwsalt("testtest"),
+    email: "test@test.com"
+})
