@@ -5,9 +5,18 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ubxui</title>
-<link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+<%= if Mix.env == :dev do %>
+    <link rel="stylesheet" href="http://localhost:9090/build/bundle.css">
+<% else %>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/build/bundle.css") %>">
+<% end %>
 </head>
 <body>
-<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+<div id="app"></div>
+<%= if Mix.env == :dev do %>
+    <script src="http://localhost:9090/build/bundle.js"></script>
+<% else %>
+    <script src="<%= static_path(@conn, "/build/bundle.js") %>"></script>
+<% end %>
 </body>
 </html>
