@@ -13,14 +13,21 @@
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li>
-                            <a class="hand">
+                            <router-link v-bind:to="{ name: 'home' }">
                                 Home
-                            </a>
+                            </router-link>
                         </li>
                         <li>
-                            <a class="hand">
+                            <router-link v-bind:to="{ name: 'register' }">
+                                Register
+                            </router-link>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <router-link v-bind:to="{ name: 'login' }">
                                 Login
-                            </a>
+                            </router-link>
                         </li>
                     </ul>
                 </div>
