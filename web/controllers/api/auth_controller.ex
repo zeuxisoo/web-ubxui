@@ -2,6 +2,8 @@ defmodule Ubxui.Api.AuthController do
 
     use Ubxui.Web, :controller
 
+    import Ecto.Query, only: [from: 2]
+
     alias Ubxui.Repo
     alias Ubxui.User
 
@@ -22,12 +24,33 @@ defmodule Ubxui.Api.AuthController do
         end
     end
 
-    def login(conn, _params) do
-        user = Repo.get(User, 1)
+    def login(conn, params) do
+        changeset = User.login_changeset(%User{}, params)
 
-        case Guardian.encode_and_sign(user) do
-            { :ok, token, _claims } -> json(conn, %{ ok: true, token: token })
-            _                       -> json(conn, %{ ok: false, token: "" })
+        # Check user exists state, password correct state
+        query = from u in User, where: u.username == ^params["username"]
+        user  = Repo.one(query)
+
+        if is_nil(user) do
+            changeset = Ecto.Changeset.add_error(changeset, :username, "cannot found")
+        end
+
+        if is_nil(user) == false && User.valid_password?(user, params["password"]) == false do
+            changeset = Ecto.Changeset.add_error(changeset, :password, "incorrect")
+        end
+
+        # Process changeset checking
+        if changeset.valid? do
+            case Guardian.encode_and_sign(user) do
+                { :ok, token, _claims } -> json(conn, %{ ok: true, token: token })
+                _                       -> json(conn, %{ ok: false, token: nil })
+            end
+        else
+            errors = changeset |> Ecto.Changeset.traverse_errors(&Ubxui.ErrorHelpers.translate_error/1)
+
+            conn
+            |> put_status(:ok)
+            |> json(%{ ok: false, errors: errors })
         end
     end
 

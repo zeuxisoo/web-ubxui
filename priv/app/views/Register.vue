@@ -85,7 +85,7 @@ export default {
                     email                : email,
                     password             : password,
                     password_confirmation: passwordConfirmation
-                }).then(function(response) {
+                }).then(response => {
                     const data   = response.data
 
                     if (data.ok === false) {

@@ -7,6 +7,10 @@ class AuthApi extends BaseApi {
         return axios.post(this.api('/auth/register'), data)
     }
 
+    login(data) {
+        return axios.post(this.api('/auth/login'), data)
+    }
+
 }
 
 export default new AuthApi()

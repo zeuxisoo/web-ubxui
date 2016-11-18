@@ -13,7 +13,7 @@ defmodule Ubxui.User do
     def register_changeset(struct, params \\ %{}) do
         struct
             |> cast(params, [:username, :email, :password])
-            |> validate_required([:username, :email, :password], message: "Cannot be blank")
+            |> validate_required([:username, :email, :password], message: "cannot be blank")
             |> validate_length(:username, min: 3)
             |> validate_length(:password, min: 8)
             |> validate_format(:email, ~r/@/, message: "Invalid email format")
@@ -23,6 +23,12 @@ defmodule Ubxui.User do
             |> put_password_hash()
     end
 
+    def login_changeset(struct, params \\ %{}) do
+        struct
+            |> cast(params, [:username, :password])
+            |> validate_required([:username, :password], message: "cannot be blank")
+    end
+
     def put_password_hash(changeset) do
         case changeset do
             %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
@@ -30,6 +36,10 @@ defmodule Ubxui.User do
             _ ->
                 changeset
         end
+    end
+
+    def valid_password?(user, plain_password) do
+        Comeonin.Bcrypt.checkpw(plain_password, user.password)
     end
 
 end

@@ -34,7 +34,7 @@ defmodule Ubxui.Router do
 
         scope "/auth" do
             post "/register", AuthController, :register
-            get "/login", AuthController, :login
+            post "/login", AuthController, :login
             get "/logout", AuthController, :logout
         end
 
