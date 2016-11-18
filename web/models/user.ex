@@ -20,6 +20,16 @@ defmodule Ubxui.User do
             |> validate_confirmation(:password)
             |> unique_constraint(:username)
             |> unique_constraint(:email)
+            |> put_password_hash()
+    end
+
+    def put_password_hash(changeset) do
+        case changeset do
+            %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
+                put_change(changeset, :password, Comeonin.Bcrypt.hashpwsalt(password))
+            _ ->
+                changeset
+        end
     end
 
 end
