@@ -33,6 +33,7 @@ defmodule Ubxui.Router do
         pipe_through :api
 
         scope "/auth" do
+            post "/register", AuthController, :register
             get "/login", AuthController, :login
             get "/logout", AuthController, :logout
         end

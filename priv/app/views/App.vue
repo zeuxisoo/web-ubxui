@@ -50,6 +50,8 @@ body {
 <script>
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
+import 'sweetalert'
+import 'sweetalert/dist/sweetalert.css'
 
 export default {
 

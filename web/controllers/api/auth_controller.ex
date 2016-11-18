@@ -5,6 +5,23 @@ defmodule Ubxui.Api.AuthController do
     alias Ubxui.Repo
     alias Ubxui.User
 
+    def register(conn, params) do
+        changeset = User.register_changeset(%User{}, params)
+
+        case Repo.insert(changeset) do
+            { :ok, _user } ->
+                conn
+                |> put_status(:created)
+                |> json(%{ ok: true, })
+            { :error, changeset } ->
+                errors = changeset |> Ecto.Changeset.traverse_errors(&Ubxui.ErrorHelpers.translate_error/1)
+
+                conn
+                |> put_status(:ok)
+                |> json(%{ ok: false, errors: errors })
+        end
+    end
+
     def login(conn, _params) do
         user = Repo.get(User, 1)
 
@@ -26,7 +43,7 @@ defmodule Ubxui.Api.AuthController do
                 |> json(%{ ok: true })
             { :error, _ } ->
                 conn
-                |> put_status(:unprocessable_entity)
+                |> put_status(:ok)
                 |> json(%{ ok: false })
         end
     end
