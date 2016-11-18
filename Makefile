@@ -6,6 +6,7 @@ usage:
 	@echo "make dev-assets"
 	@echo "make migrate"
 	@echo "make seeds"
+	@echo "make refresh-db"
 
 install:
 	@mix ecto.create
@@ -26,4 +27,9 @@ migrate:
 	@mix ecto.migrate
 
 seeds:
+	@mix run priv/repo/seeds.exs
+
+refresh-db:
+	@mix ecto.rollback --all
+	@mix ecto.migrate --all
 	@mix run priv/repo/seeds.exs
