@@ -22,6 +22,11 @@
                                 Register
                             </router-link>
                         </li>
+                        <li v-if="user === null">
+                            <router-link v-bind:to="{ name: 'dashboard' }">
+                                Dashboard
+                            </router-link>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li v-if="user === null">
@@ -71,6 +76,7 @@ import 'sweetalert'
 import 'sweetalert/dist/sweetalert.css'
 
 import UserApi from '../api/user'
+import AuthApi from '../api/auth'
 import ErrorHelper from '../helpers/error'
 
 export default {
@@ -113,12 +119,21 @@ export default {
         },
 
         logout() {
-            localStorage.removeItem('_token')
+            AuthApi.logout().then(response => {
+                localStorage.removeItem('_token')
 
-            this.user = null
+                this.user = null
 
-            this.$router.push({
-                name: 'home'
+                this.$router.push({
+                    name: 'home'
+                })
+            }).catch(error => {
+                if (error.response) {
+                    const data    = error.response.data
+                    const message = data.message
+
+                    ErrorHelper.alert(message)
+                }
             })
         }
     }

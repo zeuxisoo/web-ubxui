@@ -10,6 +10,10 @@ class AuthApi extends BaseApi {
         return this.agent().post('/auth/login', data)
     }
 
+    logout() {
+        return this.agent().get('/auth/logout')
+    }
+
 }
 
 export default new AuthApi()
