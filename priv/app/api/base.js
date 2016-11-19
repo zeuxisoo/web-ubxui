@@ -1,7 +1,14 @@
+import axios from 'axios'
+
 export default class BaseApi {
 
-    api(uri) {
-        return '/api'+ uri
+    agent() {
+        let token = localStorage.getItem('_token')
+
+        axios.defaults.baseURL = '/api'
+        axios.defaults.headers.common['Authorization'] = `bearer ${token}`
+
+        return axios
     }
 
 }

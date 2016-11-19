@@ -72,6 +72,10 @@ export default {
 
                         ErrorHelper.alert(error)
                     }else{
+                        const token = data.token
+
+                        self.$router.app.$emit('login-success', token)
+
                         self.$router.push({
                             name: 'dashboard'
                         })
