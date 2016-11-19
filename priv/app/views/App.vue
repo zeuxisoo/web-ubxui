@@ -29,6 +29,10 @@
                                 Login
                             </router-link>
                         </li>
+
+                        <li v-if="user !== null">
+                            <a href="javascript:void(0)" class="username">{{ user.username }}</a>
+                        </li>
                         <li v-if="user !== null">
                             <a v-on:click="logout()" class="hand">
                                 Logout
@@ -49,6 +53,10 @@
 body {
     overflow: hidden;
     margin-top: 60px;
+}
+
+.username {
+    color: #008800 !important;
 }
 
 .hand {
