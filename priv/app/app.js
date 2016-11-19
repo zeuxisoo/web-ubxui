@@ -7,8 +7,7 @@ import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Dashboard from './views/Dashboard.vue'
 
-import UserApi from './api/user'
-import ErrorHelper from './helpers/error'
+import AuthHelper from './helpers/auth'
 
 Vue.use(VueRouter)
 
@@ -33,32 +32,13 @@ const router = new VueRouter({
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: Dashboard
+            component: Dashboard,
+            beforeEnter: AuthHelper.requireLogin
         }
     ],
     scrollBehavior: () => ({
         y: 0
     }),
-})
-
-router.beforeEach((to, from, next) => {
-    let token = localStorage.getItem('_token')
-
-    if (token != null) {
-        UserApi.profile().then(response => {
-            next()
-        }).catch(error => {
-            ErrorHelper.alert('Session timeout, Please login first')
-
-            localStorage.removeItem('_token')
-
-            next({
-                name: 'home'
-            })
-        })
-    }else{
-        next()
-    }
 })
 
 const app = new Vue({

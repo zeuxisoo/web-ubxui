@@ -22,7 +22,7 @@
                                 Register
                             </router-link>
                         </li>
-                        <li v-if="user === null">
+                        <li v-if="user !== null">
                             <router-link v-bind:to="{ name: 'dashboard' }">
                                 Dashboard
                             </router-link>
@@ -90,6 +90,14 @@ export default {
     created() {
         // Callback when login success
         this.$on('login-success', this.loginSuccessHandler)
+
+        // Callback when logout success
+        this.$on('logout-success', this.logoutSuccessHandler)
+
+        // Auto login when token is not empty
+        if (localStorage.getItem('_token') !== null) {
+            this.loginSuccessHandler(localStorage.getItem('_token'))
+        }
     },
 
     methods: {
@@ -116,6 +124,14 @@ export default {
                     })
                 }
             })
+        },
+
+        logoutSuccessHandler() {
+            AuthApi.logout()
+
+            localStorage.removeItem('_token')
+
+            this.user = null
         },
 
         logout() {

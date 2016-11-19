@@ -48,7 +48,15 @@ export default {
         }
     },
 
+    created() {
+        this.clearLoginState()
+    },
+
     methods: {
+        clearLoginState() {
+            this.$router.app.$emit('logout-success')
+        },
+
         signIn() {
             let username = this.username
             let password = this.password
