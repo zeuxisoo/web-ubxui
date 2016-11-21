@@ -6,11 +6,12 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <label for="event-id" class="col-sm-2 control-label">Event Id</label>
-                    <div class="col-sm-8">
+                    <div class="col-sm-7">
                         <input type="email" class="form-control" id="event-id" placeholder="54321" v-model="eventId">
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <button type="button" class="btn btn-default" v-on:click="search()">Search</button>
+                        <button type="button" class="btn btn-danger" v-on:click="clear()">Clear</button>
                     </div>
                 </div>
             </div>
@@ -25,12 +26,22 @@
                             <th>State</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="events.length !== 0">
                         <tr v-for="event in events">
                             <td>{{ event.id }}</td>
                             <td>{{ event.name }}</td>
                             <td>{{ event.date }}</td>
                             <td>{{ event.status }}</td>
+                        </tr>
+                    </tbody>
+                    <tbody v-if="events.length === 0">
+                        <tr>
+                            <td colspan="4">
+                                <div class="alert alert-info alert-in-td">
+                                    <strong>Tips!</strong>&nbsp;
+                                    Please enter the event id to search
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -40,7 +51,9 @@
 </template>
 
 <style>
-
+.alert-in-td {
+    margin-bottom: 0px;
+}
 </style>
 
 <script>
@@ -72,6 +85,10 @@ export default {
                 }
             }).catch(error => {
             })
+        },
+
+        clear() {
+            this.events = []
         }
     }
 
