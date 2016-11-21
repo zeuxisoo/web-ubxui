@@ -31,12 +31,15 @@ defmodule Ubxui.Api.AuthController do
         query = from u in User, where: u.username == ^params["username"]
         user  = Repo.one(query)
 
-        if is_nil(user) do
-            changeset = Ecto.Changeset.add_error(changeset, :username, "cannot found")
-        end
+        changeset = cond do
+            is_nil(user) ->
+                Ecto.Changeset.add_error(changeset, :username, "cannot found")
 
-        if is_nil(user) == false && User.valid_password?(user, params["password"]) == false do
-            changeset = Ecto.Changeset.add_error(changeset, :password, "incorrect")
+            is_nil(user) == false && User.valid_password?(user, params["password"]) == false ->
+                Ecto.Changeset.add_error(changeset, :password, "incorrect")
+
+            true ->
+                changeset
         end
 
         # Process changeset checking
