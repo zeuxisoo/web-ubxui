@@ -43,6 +43,12 @@ defmodule Ubxui.Router do
 
             get "/profile", UserController, :profile
         end
+
+        scope "/event" do
+            pipe_through :api_authentication
+
+            get "/search", EventController, :search
+        end
     end
 
 end

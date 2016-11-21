@@ -7,10 +7,10 @@
                 <div class="form-group">
                     <label for="event-id" class="col-sm-2 control-label">Event Id</label>
                     <div class="col-sm-8">
-                        <input type="email" class="form-control" id="event-id" placeholder="54321">
+                        <input type="email" class="form-control" id="event-id" placeholder="54321" v-model="eventId">
                     </div>
                     <div class="col-sm-2">
-                        <button type="submit" class="btn btn-default">Search</button>
+                        <button type="button" class="btn btn-default" v-on:click="search()">Search</button>
                     </div>
                 </div>
             </div>
@@ -44,5 +44,29 @@
 </style>
 
 <script>
+import EventApi from '../api/event'
 
+export default {
+
+    data() {
+        return {
+            eventId: ""
+        }
+    },
+
+    methods: {
+        search() {
+            let eventId = this.eventId
+
+            EventApi.search({
+                event_id: eventId
+            }).then(response => {
+
+            }).catch(error => {
+
+            })
+        }
+    }
+
+}
 </script>

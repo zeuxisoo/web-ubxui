@@ -48,7 +48,7 @@ defmodule Ubxui.Mixfile do
             {:cowboy, "~> 1.0"},
             {:comeonin, "~> 2.5"},
             {:guardian, "~> 0.13.0"},
-            {:guardian_db, github: "hassox/guardian_db", ref: "9868a0725ddae6eeb82d3bdbac9a865a4c664f6d" }
+            {:guardian_db, github: "hassox/guardian_db", ref: "9868a0725ddae6eeb82d3bdbac9a865a4c664f6d" },
         ]
     end
 
