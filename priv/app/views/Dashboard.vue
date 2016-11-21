@@ -34,12 +34,21 @@
                             <td>{{ event.status }}</td>
                         </tr>
                     </tbody>
-                    <tbody v-if="events.length === 0">
+                    <tbody v-if="loading === false && events.length === 0">
                         <tr>
                             <td colspan="4">
                                 <div class="alert alert-info alert-in-td">
                                     <strong>Tips!</strong>&nbsp;
                                     Please enter the event id to search
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-if="loading === true">
+                        <tr>
+                            <td colspan="4">
+                                <div class="alert alert-loading alert-in-td text-center">
+                                    Loading
                                 </div>
                             </td>
                         </tr>
@@ -54,6 +63,11 @@
 .alert-in-td {
     margin-bottom: 0px;
 }
+
+.alert-loading {
+    background: #0F8880;
+    color: #FFFFFF;
+}
 </style>
 
 <script>
@@ -65,16 +79,18 @@ export default {
     data() {
         return {
             eventId: "",
-            events : []
+            events : [],
+            loading: false,
         }
     },
 
     methods: {
         search() {
-            let eventId = this.eventId
+            this.events  = []
+            this.loading = true
 
             EventApi.search({
-                event_id: eventId
+                event_id: this.eventId
             }).then(response => {
                 let data = response.data
 
@@ -83,7 +99,10 @@ export default {
                 }else{
                     this.events = data.events
                 }
+
+                this.loading = false
             }).catch(error => {
+                ErrorHelper.alert(error)
             })
         },
 
