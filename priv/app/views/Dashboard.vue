@@ -26,11 +26,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr v-for="event in events">
+                            <td>{{ event.id }}</td>
+                            <td>{{ event.name }}</td>
+                            <td>{{ event.date }}</td>
+                            <td>{{ event.status }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -45,12 +45,14 @@
 
 <script>
 import EventApi from '../api/event'
+import ErrorHelper from '../helpers/error'
 
 export default {
 
     data() {
         return {
-            eventId: ""
+            eventId: "",
+            events : []
         }
     },
 
@@ -61,9 +63,14 @@ export default {
             EventApi.search({
                 event_id: eventId
             }).then(response => {
+                let data = response.data
 
+                if (data.ok === false) {
+                    ErrorHelper.alert(data.message)
+                }else{
+                    this.events = data.events
+                }
             }).catch(error => {
-
             })
         }
     }
