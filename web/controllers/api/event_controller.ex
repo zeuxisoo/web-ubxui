@@ -5,7 +5,7 @@ defmodule Ubxui.Api.EventController do
     def search(conn, params) do
         event_id = params["event_id"]
 
-        if event_id == nil do
+        if event_id == nil || event_id == "" do
             render_error(conn, "Please provide event id")
         else
             auth = ExUbx.fetch_auth()
