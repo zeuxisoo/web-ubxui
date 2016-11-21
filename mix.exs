@@ -28,7 +28,8 @@ defmodule Ubxui.Mixfile do
                 :gettext,
                 :phoenix_ecto,
                 :postgrex,
-                :comeonin
+                :comeonin,
+                :httpotion
             ]
         ]
     end
@@ -49,6 +50,10 @@ defmodule Ubxui.Mixfile do
             {:comeonin, "~> 2.5"},
             {:guardian, "~> 0.13.0"},
             {:guardian_db, github: "hassox/guardian_db", ref: "9868a0725ddae6eeb82d3bdbac9a865a4c664f6d" },
+            {:exubx, "~> 0.1.0"},
+
+            # Fix ecto and exubx poison conflic
+            {:poison, "~> 3.0", override: true},
         ]
     end
 
