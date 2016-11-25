@@ -1,14 +1,38 @@
 # Ubxui
 
-To start your Phoenix app:
+Small web application to demo how to using the phoenix framework
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Start Phoenix endpoint with `mix phoenix.server`
+## Development
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Install dependency
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+	mix deps.get
+	
+Start Database
+	
+	make postgres-stop
+	make postgres-start
+
+Create database and schema
+
+	make install
+	make refresh-db
+	
+Create seeds
+	
+	make seeds
+
+Develop server
+
+	make server
+	
+Develop assets
+
+	make dev-assets
+	
+Migrate
+
+	make migrate
 
 ## PostgreSQL
 
